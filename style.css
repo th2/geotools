@@ -8,21 +8,31 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
 }
 
 .location {
     display: inline-block;
-    width: 15em;
     margin: 1em;
 }
 
-.location label {
-    display: inline-block;
-    width: 5.5em;
+.location p {
+    margin: 0.2em;
 }
 
-#plus {
+.location input {
+    float: right;
+    color: white;
+    background-color: #3e5676;
+    border: 0px solid #3e5676;
+    border-bottom: 1px solid white;
+}
+
+#location-plus {
+    display: inline-block;
+    margin: 1em;
+}
+
+#location-plus button {
     width: 2em;
     background-color: #3e5676;
     color: white;
