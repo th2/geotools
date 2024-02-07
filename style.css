@@ -1,0 +1,34 @@
+body {
+    background-color: #3e5676;
+    color: white;
+    font-family: sans-serif;
+}
+
+.locations {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.location {
+    border: white solid 1px;
+    display: inline-block;
+    width: 15em;
+    margin: 1em;
+}
+
+.location label {
+    display: inline-block;
+    width: 5.5em;
+}
+
+#plus {
+    width: 2em;
+    height: 2em;
+    background-color: #3e5676;
+    color: white;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoTools</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
+</head>
+<body>
+    <h1>GeoTools</h1>
+    <h2>Midpoint</h2>
+    <span>Calculate the midpoint between coordinates.</span>
+
+    <div id="locations">
+        <div class="location location-input">
+            <label>Location 1:</label>
+            <input type="text" name="latlon">
+            <label>Latitude:</label>
+            <input type="text" name="latitude">
+            <label>Longitude:</label>
+            <input type="text" name="longitude">
+        </div>
+
+        <div class="location location-input">
+            <label>Location 2:</label>
+            <input type="text" name="latlon">
+            <label>Latitude:</label>
+            <input type="text" name="latitude">
+            <label>Longitude:</label>
+            <input type="text" name="longitude">
+        </div>
+
+        <div id="location-plus" class="location">
+            <button id="plus">+</input>
+        </div>
+
+        <div class="location">
+            <label for="latlon-output">Center:</label>
+            <input type="text" id="latlon-output">
+            <label for="latitude-output">Latitude:</label>
+            <input type="text" id="latitude-output">
+            <label for="longitude-output">Longitude:</label>
+            <input type="text" id="longitude-output">
+        </div>
+    </div>
+    <script>
+        document.getElementById('plus').addEventListener('click', () => {
+            var location = document.querySelector('.location-input').cloneNode(true);
+            location.querySelectorAll('label')[0].textContent = 'Location ' + (document.querySelectorAll('.location-input').length + 1) + ':';
+            location.querySelectorAll('input').forEach((input) => {
+                input.value = '';
+            });
+            var inputLatLon = location.querySelectorAll('input[name="latlon"]');
+            var inputLat = location.querySelectorAll('input[name="latitude"]');
+            var inputLon = location.querySelectorAll('input[name="longitude"]');
+            inputLatLon[0].addEventListener('input', () => {
+                latLonSplit(inputLat, inputLon, inputLatLon);
+                calcOutput();
+            });
+            inputLat[0].addEventListener('input', () => {
+                latLonCombine(inputLat, inputLon, inputLatLon);
+                calcOutput();
+            });
+            inputLon[0].addEventListener('input', () => {
+                latLonCombine(inputLat, inputLon, inputLatLon);
+                calcOutput();
+            });
+            document.getElementById('locations').insertBefore(location, document.getElementById('location-plus'));
+        });
+
+        document.querySelectorAll('.location-input').forEach((location) => {
+            var inputLatLon = location.querySelectorAll('input[name="latlon"]');
+            var inputLat = location.querySelectorAll('input[name="latitude"]');
+            var inputLon = location.querySelectorAll('input[name="longitude"]');
+            inputLatLon[0].addEventListener('input', () => {
+                latLonSplit(inputLat, inputLon, inputLatLon);
+                calcOutput();
+            });
+            inputLat[0].addEventListener('input', () => {
+                latLonCombine(inputLat, inputLon, inputLatLon);
+                calcOutput();
+            });
+            inputLon[0].addEventListener('input', () => {
+                latLonCombine(inputLat, inputLon, inputLatLon);
+                calcOutput();
+            });
+        });
+
+        function latLonSplit(inputLat, inputLon, inputLatLon) {
+            var latLon = inputLatLon[0].value.split(',').map((coord) => coord.trim());
+            inputLat[0].value = latLon[0];
+            inputLon[0].value = latLon.length > 1 ? latLon[1] : 0;
+        }
+
+        function latLonCombine(inputLat, inputLon, inputLatLon) {
+            var lat = isNaN(parseFloat(inputLat[0].value)) ? 0 : parseFloat(inputLat[0].value);
+            var lon = isNaN(parseFloat(inputLon[0].value)) ? 0 : parseFloat(inputLon[0].value);
+            inputLatLon[0].value = lat + ", " + lon;
+        }
+
+        function calcOutput() {
+            var inputs = document.querySelectorAll('input[name="latitude"], input[name="longitude"]');
+            var midpoint = geolib.getCenter(getInputCoords(inputs));
+            document.getElementById("latlon-output").value = midpoint.latitude + ", " + midpoint.longitude;
+            document.getElementById("latitude-output").value = midpoint.latitude;
+            document.getElementById("longitude-output").value = midpoint.longitude;
+        }
+
+        function getInputCoords(inputs) {
+            var coords = [];
+            for (var i = 0; i < inputs.length; i += 2) {
+                coords.push({ latitude: inputs[i].value, longitude: inputs[i + 1].value });
+            }
+            return coords;
+        }
+    </script>
+</body>
+</html>
